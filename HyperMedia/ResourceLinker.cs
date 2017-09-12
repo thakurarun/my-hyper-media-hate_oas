@@ -1,12 +1,16 @@
-﻿using System;
+﻿using Ploeh.Hyprlinkr;
+using System;
 using System.Linq.Expressions;
+using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Controllers;
+using System.Web.Http.Dispatcher;
 
 namespace HyperMedia
 {
     public interface IResourceLinker
     {
-        Link From<T>(string rel, Expression<Action<T>> method);
+        Link From<T>(string rel, Uri uri) where T : ApiController;
     }
     public class ResourceLinker : IResourceLinker
     {
@@ -15,10 +19,10 @@ namespace HyperMedia
 
         }
 
-        public Link From<T>(string rel, Expression<Action<T>> method) // where T : ApiController
+        public Link From<T>(string rel, Uri uri) where T : ApiController
         {
-            method.
-            return new Link(rel, "link to product");
+            
+            return new HyperMedia.Link(rel, uri.ToString());
             //var href = controller.Url.Link(rel, method.);
             //return new Link(rel, href);
         }

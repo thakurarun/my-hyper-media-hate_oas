@@ -12,4 +12,13 @@ namespace HyperMedia
             Href = href;
         }
     }
+
+    //public class DataLink<T> : Link
+    //{
+    //    public T data { get; set; }
+    //    public DataLink(string rel, string href, T data) : base(rel, href)
+    //    {
+    //        this.data = data;
+    //    }
+    //}
 }
