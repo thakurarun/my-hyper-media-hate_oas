@@ -1,24 +1,27 @@
 ﻿using Backend.Mock;
+using HyperMedia;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Collections;
-using System.Linq;
-using HyperMedia;
-using Ploeh.Hyprlinkr;
 
 namespace Backend.Controller.Product
 {
-    public class ListController : ApiController
+    public interface IListController
+    {
+        Task<IEnumerable<ResourceData>> Get(int start, int pageSize);
+    }
+    public class ListController : ApiController, IListController
     {
         private const int PageSize = 10;
         private IProductDataService productDataService;
-        private RouteLinker linker;
+        private IMyResourceLinker linker;
 
-        public ListController(RouteLinker linker)
+         public ListController(IProductDataService productDataService)
+        // public ListController(IMyResourceLinker linker)
         {
-            this.productDataService = new ProductDataService();
-            this.linker = linker;
+            linker = new MyResourceLinker(this.Request);
+            // this.productDataService = new ProductDataService();
+            this.productDataService = productDataService;
         }
         public async Task<IEnumerable<ResourceData>> Get(int start, int pageSize)
         {
@@ -26,7 +29,7 @@ namespace Backend.Controller.Product
             return ToResourceData(result);
         }
 
-        public IEnumerable<ResourceData> ToResourceData(IEnumerable<MockProduct> products)
+        private IEnumerable<ResourceData> ToResourceData(IEnumerable<MockProduct> products)
         {
             var resourceData = new List<ResourceData>();
             foreach (var product in products)

@@ -9,7 +9,8 @@ namespace Backend
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
-            config.DependencyResolver = new UnityResolver(RegisterServices.container);
+            config.DependencyResolver = new WindsorHttpDependencyResolver(IocContainer.Container);
+           //  config.DependencyResolver = new UnityResolver(RegisterServices.container);
             // Web API routes
             config.MapHttpAttributeRoutes();
 

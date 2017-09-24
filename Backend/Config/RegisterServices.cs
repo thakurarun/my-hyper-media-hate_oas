@@ -1,16 +1,23 @@
-﻿using Backend.Controller.Product;
-using Microsoft.Practices.Unity;
+﻿using System;
+using Backend.Controller.Product;
+using Castle.MicroKernel.Registration;
+using Castle.MicroKernel.SubSystems.Configuration;
+using Castle.Windsor;
+using HyperMedia;
+using Castle.Windsor.Installer;
 
 namespace Backend.Config
 {
-    public static class RegisterServices
+    public class RegisterServices : IWindsorInstaller
     {
-        public static IUnityContainer container = new UnityContainer();
-        public static void Register()
-        {
-            container.RegisterType<IProductDataService, ProductDataService>(new HierarchicalLifetimeManager());
+        /// public WindsorContainer container = new WindsorContainer();
 
-            // Other Web API configuration not shown.
+        public void Install(IWindsorContainer container, IConfigurationStore store)
+        {
+            container.Register(Component.For<IMyResourceLinker>().ImplementedBy<MyResourceLinker>());
+            container.Register(Component.For<IListController>().ImplementedBy<ListController>());
+            container.Register(Component.For<IProductDataService>().ImplementedBy<ProductDataService>());
         }
+        
     }
 }

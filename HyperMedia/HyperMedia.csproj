@@ -53,11 +53,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Link.cs" />
-    <Compile Include="MyCustomControllerActivator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceAction.cs" />
     <Compile Include="ResourceData.cs" />
-    <Compile Include="ResourceLinker.cs" />
+    <Compile Include="MyResourceLinker.cs" />
     <Compile Include="ResourceList.cs" />
   </ItemGroup>
   <ItemGroup>

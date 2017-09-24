@@ -1,6 +1,4 @@
-﻿using Backend.Mock;
-using HyperMedia;
-using Ploeh.Hyprlinkr;
+﻿using HyperMedia;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -9,9 +7,10 @@ namespace Backend.Controller.Product
 {
     public class ProductController : ApiController
     {
+        private readonly IMyResourceLinker linker;
         private IProductDataService productDataService;
-        private readonly RouteLinker linker;
-        public ProductController(RouteLinker linker)
+
+        public ProductController(IMyResourceLinker linker)
         {
             this.linker = linker;
             this.productDataService = new ProductDataService();
@@ -30,22 +29,19 @@ namespace Backend.Controller.Product
 
     public static class ProductExtensions
     {
-        public static Link LinkToProduct(this RouteLinker linker, int id)
+        public static Link LinkToProduct(this IMyResourceLinker linker, int id)
         {
-            return new ResourceLinker()
-                        .From<ProductController>("self",  linker.GetUri<ProductController>(r => r.Get(id)));
+            return linker.From<ProductController>("self",  r => r.Get(id));
         }
 
-        public static Link LinkToEditProduct(this RouteLinker linker, int id)
+        public static Link LinkToEditProduct(this IMyResourceLinker linker, int id)
         {
-            return new ResourceLinker()
-                        .From<EditController>("edit", linker.GetUri<EditController>(r=> r.Post(id, null)));
+            return linker.From<EditController>("edit", r=> r.Post(id, null));
         }
 
-        public static Link LinkToDeleteProduct(this RouteLinker linker, int id)
+        public static Link LinkToDeleteProduct(this IMyResourceLinker linker, int id)
         {
-            return new ResourceLinker()
-                        .From<DeleteController>("delete", linker.GetUri<DeleteController>(r => r.Delete(id)));
+            return linker.From<DeleteController>("delete", c=> c.Delete(id));
         }
     }
 }
